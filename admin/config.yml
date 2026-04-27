@@ -1,0 +1,17 @@
+backend:
+  name: github
+  repo: kullanıcı-adın/depo-adın # Burayı siteyi yüklediğinde güncelleyeceğiz
+  branch: main
+
+media_folder: "images/uploads" # Fotoğrafların yükleneceği yer
+public_folder: "/images/uploads"
+
+collections:
+  - name: "projeler"
+    label: "Projelerimiz"
+    folder: "content/projeler"
+    create: true
+    fields:
+      - {label: "Proje Adı", name: "title", widget: "string"}
+      - {label: "Proje Görseli", name: "image", widget: "image"}
+      - {label: "Açıklama", name: "body", widget: "markdown"}
