@@ -6,48 +6,36 @@ media_folder: "assets/images"
 public_folder: "/assets/images"
 
 collections:
-  # 1. KOLEKSİYON: PROJELER (Klasör tabanlı)
-  - name: "projeler"
-    label: "Projelerimiz"
-    folder: "content/projeler"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Proje Adı", name: "title", widget: "string"}
-      - {label: "Proje Tarihi", name: "date", widget: "datetime"}
-      - {label: "Kapak Görseli", name: "image", widget: "image"}
-      - {label: "Proje Detayı", name: "body", widget: "markdown"}
-
-  # 2. KOLEKSİYON: SAYFALAR (Dosya tabanlı)
-  - name: "sayfalar"
-    label: "Sayfa İçerikleri"
+  - name: "ayarlar"
+    label: "⚙️ Genel Site Ayarları"
     files:
-      - file: "index.html"
+      - file: "data/settings.json"
+        label: "Logo ve İletişim Bilgileri"
+        name: "general"
+        fields:
+          - {label: "Firma Adı", name: "site_name", widget: "string"}
+          - {label: "Site Logosu", name: "logo", widget: "image"}
+          - {label: "Telefon", name: "phone", widget: "string"}
+          - {label: "E-posta", name: "email", widget: "string"}
+          - {label: "Adres", name: "address", widget: "text"}
+
+  - name: "sayfalar"
+    label: "📄 Sayfa İçerikleri"
+    files:
+      - file: "content/index.json"
         label: "Ana Sayfa"
         name: "index"
         fields:
-          - {label: "Hero Başlık", name: "title", widget: "string"}
-          - {label: "Hero Alt Yazı", name: "subtitle", widget: "text"}
+          - {label: "Hero Başlık", name: "hero_title", widget: "string"}
+          - {label: "Hero Alt Yazı", name: "hero_subtitle", widget: "text"}
+          - {label: "Hero Arkaplan", name: "hero_bg", widget: "image"}
 
-      - file: "kurumsal.html"
-        label: "Kurumsal / Hakkımızda"
-        name: "kurumsal"
-        fields:
-          - {label: "Sayfa Başlığı", name: "title", widget: "string"}
-          - {label: "Biz Kimiz İçeriği", name: "body", widget: "markdown"}
-
-      - file: "sistemler.html"
-        label: "Sistemlerimiz"
-        name: "sistemler"
-        fields:
-          - {label: "Başlık", name: "title", widget: "string"}
-          - {label: "Sistem Listesi", name: "body", widget: "markdown"}
-
-      - file: "iletisim.html"
-        label: "İletişim Bilgileri"
-        name: "iletisim"
-        fields:
-          - {label: "Adres", name: "address", widget: "string"}
-          - {label: "Telefon", name: "phone", widget: "string"}
-          - {label: "E-posta", name: "email", widget: "string"}
-          - {label: "WhatsApp Hattı", name: "whatsapp", widget: "string"}
+  - name: "projeler"
+    label: "🏗️ Projelerimiz"
+    folder: "content/projeler"
+    create: true
+    fields:
+      - {label: "Proje Adı", name: "title", widget: "string"}
+      - {label: "Proje Tarihi", name: "date", widget: "datetime"}
+      - {label: "Proje Resmi", name: "thumbnail", widget: "image"}
+      - {label: "Detaylar", name: "body", widget: "markdown"}
