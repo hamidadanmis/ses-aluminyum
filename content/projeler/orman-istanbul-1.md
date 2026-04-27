@@ -1,5 +1,0 @@
----
-title: Orman İstanbul
-image: https://www.google.com/search?q=orman+istanbul+ka%C4%9F%C4%B1thane&sca_esv=22f559b5d064249e&udm=2&biw=1536&bih=738&sxsrf=ANbL-n4A2OZ3wVFraK-HwYdDxyhIBfAlPw%3A1777309730182&ei=IpjvafrhCryIxc8PoIzcsQ0&oq=orman+istanbul&gs_lp=Egtnd3Mtd2l6LWltZyIOb3JtYW4gaXN0YW5idWwqAggBMgcQIxjJAhgnMgcQIxjJAhgnMgYQABgHGB4yBhAAGAcYHjIGEAAYBxgeMgUQABiABDIGEAAYBxgeMgYQABgHGB4yBhAAGAcYHjIGEAAYBxgeSPINUABYAHABeACQAQCYAQCgAQCqAQC4AQHIAQCYAgGgAg2YAwCIBgGSBwExoAcAsgcAuAcAwgcDMy0xyAcLgAgB&sclient=gws-wiz-img#sv=CAMSVhoyKhBlLWdZQXplZzAycjdBUmZNMg5nWUF6ZWcwMnI3QVJmTToOMjk5WlVBV1Rldkw4N00gBCocCgZtb3NhaWMSEGUtZ1lBemVnMDJyN0FSZk0YADABGAcg4MqIxg1KCBABGAEgASgB
----
-Orman istanbul
