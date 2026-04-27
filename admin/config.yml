@@ -34,8 +34,14 @@ collections:
     label: "🏗️ Projelerimiz"
     folder: "content/projeler"
     create: true
+    slug: "{{slug}}"
     fields:
       - {label: "Proje Adı", name: "title", widget: "string"}
-      - {label: "Proje Tarihi", name: "date", widget: "datetime"}
+      - label: "Proje Yılı"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY"
+        date_format: "YYYY"
+        time_format: false
       - {label: "Proje Resmi", name: "thumbnail", widget: "image"}
       - {label: "Detaylar", name: "body", widget: "markdown"}
