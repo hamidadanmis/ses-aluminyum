@@ -25,29 +25,24 @@
         </div>
     </nav>
 
-    <section class="bg-blue-900 py-24 text-white text-center relative overflow-hidden">
-        <div class="relative z-10">
-            <h1 class="text-5xl font-black tracking-[0.3em] uppercase mb-4">PROJELERİMİZ</h1>
-            <p class="text-blue-200 font-light tracking-widest uppercase text-sm">Alüminyum Sistemlerinde Estetik ve Güven</p>
-        </div>
+    <section class="bg-blue-900 py-24 text-white text-center relative">
+        <h1 class="text-5xl font-black tracking-[0.3em] uppercase mb-4">PROJELERİMİZ</h1>
+        <p class="text-blue-200 font-light tracking-widest uppercase text-sm">Alüminyum Sistemlerinde Estetik ve Güven</p>
     </section>
 
     <section class="py-20 container mx-auto px-6">
         <div id="project-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
-            <div class="col-span-full text-center py-20 text-gray-400 animate-pulse uppercase tracking-widest text-sm">Projeler Hazırlanıyor...</div>
+            <div class="col-span-full text-center py-20 text-gray-400 animate-pulse uppercase tracking-widest text-sm">Yükleniyor...</div>
         </div>
     </section>
 
-    <footer class="bg-white border-t py-12">
-        <div class="container mx-auto px-6 text-center text-gray-400 text-[10px] tracking-[0.4em] uppercase">
-            &copy; 2026 SES ALÜMİNYUM | ALUMINIUM SYSTEMS & SOLUTIONS
-        </div>
+    <footer class="bg-white border-t py-12 text-center text-gray-400 text-[10px] tracking-[0.4em] uppercase">
+        &copy; 2026 SES ALÜMİNYUM | ALUMINIUM SYSTEMS & SOLUTIONS
     </footer>
 
     <script>
         async function loadProjects() {
             const container = document.getElementById('project-list');
-            // GitHub Bilgilerin
             const user = "hamidadanmis"; 
             const repo = "ses-aluminyum";
             
@@ -62,13 +57,17 @@
                         const contentRes = await fetch(file.download_url);
                         const text = await contentRes.text();
 
-                        // Veri ayıklama
+                        // VERİ AYIKLAMA (SADECE YIL FİLTRESİ EKLENDİ)
                         const title = text.match(/title:\s*(.*)/)?.[1]?.replace(/['"]/g, '') || "Proje";
                         const thumb = text.match(/thumbnail:\s*(.*)/)?.[1]?.replace(/['"]/g, '') || "https://via.placeholder.com/800x600";
-                        const year = text.match(/date:\s*(.*)/)?.[1]?.replace(/['"]/g, '') || "";
+                        
+                        // Ham tarih verisini çek
+                        const rawDate = text.match(/date:\s*(.*)/)?.[1]?.replace(/['"]/g, '') || "";
+                        // Regex ile sadece 4 haneli yılı (YYYY) cımbızla çek
+                        const year = rawDate.match(/\d{4}/) ? rawDate.match(/\d{4}/)[0] : "";
 
                         container.innerHTML += `
-                            <div class="project-card relative overflow-hidden bg-gray-200 aspect-[4/3] group shadow-2xl rounded-sm">
+                            <div class="project-card relative overflow-hidden bg-gray-200 aspect-[4/3] group shadow-xl">
                                 <img src="${thumb}" class="w-full h-full object-cover transition-transform duration-700">
                                 <div class="overlay absolute inset-0 flex flex-col items-center justify-center text-white p-8">
                                     <h3 class="text-2xl font-black text-center uppercase tracking-tighter mb-2">${title}</h3>
@@ -80,7 +79,7 @@
                     }
                 }
             } catch (err) {
-                container.innerHTML = '<p class="text-center col-span-full text-red-800 font-bold uppercase">Yükleme Hatası: Panelden proje eklediğinizden emin olun.</p>';
+                container.innerHTML = '<p class="text-center col-span-full text-red-800 font-bold uppercase">Veri yüklenemedi. Lütfen paneli kontrol edin.</p>';
             }
         }
         loadProjects();
