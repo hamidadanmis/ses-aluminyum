@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projelerimiz | Ses Alüminyum</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         .project-card:hover img { transform: scale(1.1); transition: 0.5s; }
         .overlay { background: rgba(30, 58, 138, 0.8); opacity: 0; transition: 0.3s; }
@@ -35,32 +36,8 @@
     </section>
 
     <section class="py-20 container mx-auto px-8">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            <div class="project-card relative overflow-hidden bg-gray-200 aspect-video group cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800" class="w-full h-full object-cover">
-                <div class="overlay absolute inset-0 flex flex-col items-center justify-center text-white p-6">
-                    <h3 class="text-xl font-bold uppercase">Modern Plaza Cephe</h3>
-                    <p class="text-sm mt-2">Silikon Giydirme Cephe Uygulaması</p>
-                </div>
-            </div>
-
-            <div class="project-card relative overflow-hidden bg-gray-200 aspect-video group cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1554435493-93422e8220c8?q=80&w=800" class="w-full h-full object-cover">
-                <div class="overlay absolute inset-0 flex flex-col items-center justify-center text-white p-6">
-                    <h3 class="text-xl font-bold uppercase">Şehir Hastanesi</h3>
-                    <p class="text-sm mt-2">Kompozit Panel & Alüminyum Doğrama</p>
-                </div>
-            </div>
-
-            <div class="project-card relative overflow-hidden bg-gray-200 aspect-video group cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=800" class="w-full h-full object-cover">
-                <div class="overlay absolute inset-0 flex flex-col items-center justify-center text-white p-6">
-                    <h3 class="text-xl font-bold uppercase">Rezidans Projesi</h3>
-                    <p class="text-sm mt-2">Isı Yalıtımlı Sürme Sistemleri</p>
-                </div>
-            </div>
-
+        <div id="project-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <p class="text-gray-400 text-center col-span-full italic">Projeler güncelleniyor...</p>
         </div>
     </section>
 
@@ -70,5 +47,55 @@
         </div>
     </footer>
 
+    <script>
+        async function loadProjects() {
+            const container = document.getElementById('project-container');
+            const repoOwner = 'hamidadanmis';
+            const repoName = 'ses-aluminyum';
+            const folderPath = 'content/projeler';
+
+            try {
+                // GitHub API üzerinden klasördeki dosyaları çekiyoruz
+                const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`);
+                
+                if (!response.ok) throw new Error('Dosyalar alınamadı');
+                
+                const files = await response.json();
+                container.innerHTML = ''; 
+
+                files.forEach(file => {
+                    if (file.name.endsWith('.md')) {
+                        // Dosya isminden başlık oluşturma (Örn: "modern-plaza.md" -> "MODERN PLAZA")
+                        const title = file.name
+                            .replace('.md', '')
+                            .replace(/-/g, ' ')
+                            .toUpperCase();
+
+                        const cardHtml = `
+                            <div class="project-card relative overflow-hidden bg-gray-200 aspect-video group cursor-pointer">
+                                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800" class="w-full h-full object-cover">
+                                <div class="overlay absolute inset-0 flex flex-col items-center justify-center text-white p-6">
+                                    <h3 class="text-xl font-bold uppercase text-center">${title}</h3>
+                                    <p class="text-sm mt-2">Detaylar Panleden Eklendi</p>
+                                </div>
+                            </div>
+                        `;
+                        container.innerHTML += cardHtml;
+                    }
+                });
+
+                if (container.innerHTML === '') {
+                    container.innerHTML = '<p class="text-gray-500 text-center col-span-full">Henüz eklenmiş bir proje bulunamadı.</p>';
+                }
+
+            } catch (error) {
+                console.error("Hata:", error);
+                container.innerHTML = '<p class="text-red-500 text-center col-span-full">Projeler yüklenirken bir hata oluştu.</p>';
+            }
+        }
+
+        // Sayfa yüklendiğinde projeleri getir
+        loadProjects();
+    </script>
 </body>
 </html>
