@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: kullanıcı-adın/depo-adın # Burayı siteyi yüklediğinde güncelleyeceğiz
+  name: git-gateway
   branch: main
 
 media_folder: "images/uploads" # Fotoğrafların yükleneceği yer
