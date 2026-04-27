@@ -7,79 +7,83 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
-        .project-card:hover img { transform: scale(1.1); transition: 0.5s; }
-        .overlay { background: rgba(30, 58, 138, 0.9); opacity: 0; transition: 0.3s; }
+        .project-card:hover img { transform: scale(1.1); transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .overlay { background: linear-gradient(to top, rgba(30, 58, 138, 0.95), rgba(30, 58, 138, 0.7)); opacity: 0; transition: 0.4s; }
         .project-card:hover .overlay { opacity: 1; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
 
-    <nav class="bg-white border-b sticky top-0 z-50">
+    <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="text-2xl font-black text-blue-900">SES ALÜMİNYUM</div>
-            <div class="space-x-8 text-sm font-bold uppercase tracking-wider">
-                <a href="index.html" class="hover:text-blue-700">Ana Sayfa</a>
-                <a href="projeler.html" class="text-blue-700">Projeler</a>
-                <a href="iletisim.html" class="hover:text-blue-700">İletişim</a>
+            <div class="text-2xl font-black tracking-tighter text-blue-900">SES ALÜMİNYUM</div>
+            <div class="space-x-8 text-xs font-bold uppercase tracking-widest text-gray-600">
+                <a href="index.html" class="hover:text-blue-700 transition">Ana Sayfa</a>
+                <a href="projeler.html" class="text-blue-700 border-b-2 border-blue-700 pb-1">Projeler</a>
+                <a href="iletisim.html" class="hover:text-blue-700 transition">İletişim</a>
             </div>
         </div>
     </nav>
 
-    <section class="bg-blue-900 py-20 text-white text-center">
-        <h1 class="text-4xl font-bold tracking-widest uppercase">PROJELERİMİZ</h1>
-        <p class="mt-4 text-blue-200">Panelden eklediğiniz tüm projeler burada otomatik listelenir.</p>
-    </section>
-
-    <section class="py-16 container mx-auto px-6">
-        <div id="project-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <p class="text-center col-span-full text-gray-400">Projeler yükleniyor...</p>
+    <section class="bg-blue-900 py-24 text-white text-center relative overflow-hidden">
+        <div class="relative z-10">
+            <h1 class="text-5xl font-black tracking-[0.3em] uppercase mb-4">PROJELERİMİZ</h1>
+            <p class="text-blue-200 font-light tracking-widest uppercase text-sm">Alüminyum Sistemlerinde Estetik ve Güven</p>
         </div>
     </section>
 
+    <section class="py-20 container mx-auto px-6">
+        <div id="project-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="col-span-full text-center py-20 text-gray-400 animate-pulse uppercase tracking-widest text-sm">Projeler Hazırlanıyor...</div>
+        </div>
+    </section>
+
+    <footer class="bg-white border-t py-12">
+        <div class="container mx-auto px-6 text-center text-gray-400 text-[10px] tracking-[0.4em] uppercase">
+            &copy; 2026 SES ALÜMİNYUM | ALUMINIUM SYSTEMS & SOLUTIONS
+        </div>
+    </footer>
+
     <script>
-        async function projeleriYukle() {
+        async function loadProjects() {
             const container = document.getElementById('project-list');
-            
-            // SENİN BİLGİLERİN (Burayı kontrol et)
-            const username = "hamidadanmis"; // GitHub kullanıcı adın
-            const repo = "ses-aluminyum";    // Repo adın
+            // GitHub Bilgilerin
+            const user = "hamidadanmis"; 
+            const repo = "ses-aluminyum";
             
             try {
-                // 1. GitHub API ile content/projeler klasöründeki dosyaları listele
-                const response = await fetch(`https://api.github.com/repos/${username}/${repo}/contents/content/projeler`);
+                const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/content/projeler`);
                 const files = await response.json();
                 
-                container.innerHTML = ''; // Temizle
+                container.innerHTML = ''; 
 
                 for (const file of files) {
                     if (file.name.endsWith('.md')) {
-                        // 2. Her .md dosyasının içeriğini çek
                         const contentRes = await fetch(file.download_url);
                         const text = await contentRes.text();
 
-                        // 3. Markdown içindeki başlık ve resim linkini ayıkla (Basit Regex)
-                        const title = text.match(/title:\s*(.*)/)?.[1]?.replace(/['"]/g, '') || "İsimsiz Proje";
-                        const thumb = text.match(/thumbnail:\s*(.*)/)?.[1]?.replace(/['"]/g, '') || "https://via.placeholder.com/600x400";
+                        // Veri ayıklama
+                        const title = text.match(/title:\s*(.*)/)?.[1]?.replace(/['"]/g, '') || "Proje";
+                        const thumb = text.match(/thumbnail:\s*(.*)/)?.[1]?.replace(/['"]/g, '') || "https://via.placeholder.com/800x600";
+                        const year = text.match(/date:\s*(.*)/)?.[1]?.replace(/['"]/g, '') || "";
 
-                        // 4. HTML Kartını oluştur ve ekle
                         container.innerHTML += `
-                            <div class="project-card relative overflow-hidden bg-white shadow-lg aspect-video group">
-                                <img src="${thumb}" class="w-full h-full object-cover">
-                                <div class="overlay absolute inset-0 flex flex-col items-center justify-center text-white p-4">
-                                    <h3 class="text-xl font-bold text-center uppercase">${title}</h3>
-                                    <div class="mt-4 border-b-2 border-white w-12"></div>
+                            <div class="project-card relative overflow-hidden bg-gray-200 aspect-[4/3] group shadow-2xl rounded-sm">
+                                <img src="${thumb}" class="w-full h-full object-cover transition-transform duration-700">
+                                <div class="overlay absolute inset-0 flex flex-col items-center justify-center text-white p-8">
+                                    <h3 class="text-2xl font-black text-center uppercase tracking-tighter mb-2">${title}</h3>
+                                    <p class="text-blue-100 font-bold text-lg tracking-widest">${year}</p>
+                                    <div class="mt-6 border-b-4 border-white w-10"></div>
                                 </div>
                             </div>
                         `;
                     }
                 }
             } catch (err) {
-                container.innerHTML = '<p class="text-center col-span-full">Henüz proje eklenmemiş veya bir hata oluştu.</p>';
-                console.error(err);
+                container.innerHTML = '<p class="text-center col-span-full text-red-800 font-bold uppercase">Yükleme Hatası: Panelden proje eklediğinizden emin olun.</p>';
             }
         }
-
-        projeleriYukle();
+        loadProjects();
     </script>
 </body>
 </html>
